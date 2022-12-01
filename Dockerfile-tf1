@@ -1,0 +1,9 @@
+FROM nvcr.io/nvidia/tensorflow:22.06-tf2-py3
+ENV UNIT=gpu
+
+WORKDIR /ai-benchmark
+ADD . /ai-benchmark
+
+RUN pip install .
+
+CMD ["/bin/sh", "-c", "bash"]

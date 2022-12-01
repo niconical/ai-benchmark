@@ -1,0 +1,9 @@
+FROM nvcr.io/nvidia/pytorch:22.06-py3
+ENV UNIT=gpu
+
+WORKDIR /ai-benchmark
+ADD . /ai-benchmark
+
+RUN pip install .
+
+CMD ["/bin/sh", "-c", "bash"]
