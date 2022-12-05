@@ -4,6 +4,8 @@ ENV UNIT=gpu
 WORKDIR /ai-benchmark
 ADD . /ai-benchmark
 
+RUN cp /usr/local/bin/pip* /usr/bin/
+
 RUN pip install .
 
 CMD ["/bin/sh", "-c", "bash"]

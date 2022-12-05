@@ -9,7 +9,8 @@ logger = logging.getLogger('ai_benchmark')
 
 class AIBenchmark:
     def __init__(self, use_cpu=None, verbose_level=1, seed=42):
-        self.tf_ver_2 = utils.parse_version(tf.__version__) > utils.parse_version('1.99')
+        self.tf_ver_2 = utils.parse_version(
+            tf.__version__) > utils.parse_version('1.99')
         self.verbose = verbose_level
         logger.setLevel(30 - self.verbose*10)
 
@@ -26,7 +27,8 @@ class AIBenchmark:
                     tf_logger.setLevel(logging.ERROR)
 
                 elif utils.parse_version(tf.__version__) > utils.parse_version('1.13'):
-                    tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+                    tf.compat.v1.logging.set_verbosity(
+                        tf.compat.v1.logging.ERROR)
 
                 else:
                     tf.logging.set_verbosity(tf.logging.ERROR)
@@ -37,7 +39,8 @@ class AIBenchmark:
                     tf_logger.disabled = True
                     tf_logger.setLevel(logging.INFO)
                 elif utils.parse_version(tf.__version__) > utils.parse_version('1.13'):
-                    tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.INFO)
+                    tf.compat.v1.logging.set_verbosity(
+                        tf.compat.v1.logging.INFO)
                 else:
                     tf.logging.set_verbosity(tf.logging.INFO)
         except Exception as err:

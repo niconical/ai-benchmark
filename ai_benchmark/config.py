@@ -34,7 +34,8 @@ class Test:
         self.id = test_id
         self.type = test_type
         self.model = model
-        self.model_src = path.join(path.dirname(__file__), "models/" + model_src)
+        self.model_src = path.join(
+            path.dirname(__file__), "models/" + model_src)
         self.use_src = use_src
         self.training = tests_training
         self.inference = tests_inference
@@ -47,13 +48,15 @@ MOBILENET_V2 = Test(
     tests_training=[
         SubTest(50, [224, 224, 3], [1001], 22, min_passes=5, max_duration=30,
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=265)
-        ],
-        tests_inference=[
-            SubTest(50, [224, 224, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=75)
-        ],
-        tests_micro=[
-            SubTest(1, [224, 224, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=6)
-        ]
+    ],
+    tests_inference=[
+        SubTest(50, [224, 224, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=75)
+    ],
+    tests_micro=[
+        SubTest(1, [224, 224, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=6)
+    ]
 )
 INCEPTION_V3 = Test(
     test_id=2, test_type="classification", model="Inception-V3", model_src="inception_v3.meta",
@@ -63,10 +66,12 @@ INCEPTION_V3 = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=275)
     ],
     tests_inference=[
-        SubTest(20, [346, 346, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=85)
+        SubTest(20, [346, 346, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=85)
     ],
     tests_micro=[
-        SubTest(1, [346, 346, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=17)
+        SubTest(1, [346, 346, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=17)
     ]
 )
 INCEPTION_V4 = Test(
@@ -77,10 +82,12 @@ INCEPTION_V4 = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=290)
     ],
     tests_inference=[
-        SubTest(10, [346, 346, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=68)
+        SubTest(10, [346, 346, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=68)
     ],
     tests_micro=[
-        SubTest(1, [346, 346, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=27)
+        SubTest(1, [346, 346, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=27)
     ]
 )
 INCEPTION_RESNET_V2 = Test(
@@ -91,10 +98,12 @@ INCEPTION_RESNET_V2 = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=330)
     ],
     tests_inference=[
-        SubTest(10, [346, 346, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=90)
+        SubTest(10, [346, 346, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=90)
     ],
     tests_micro=[
-        SubTest(1, [346, 346, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=37)
+        SubTest(1, [346, 346, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=37)
     ]
 )
 RESNET_V2_50 = Test(
@@ -105,10 +114,12 @@ RESNET_V2_50 = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=172)
     ],
     tests_inference=[
-        SubTest(10, [346, 346, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=48)
+        SubTest(10, [346, 346, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=48)
     ],
     tests_micro=[
-        SubTest(1, [346, 346, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=10)
+        SubTest(1, [346, 346, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=10)
     ]
 )
 RESNET_V2_152 = Test(
@@ -119,29 +130,36 @@ RESNET_V2_152 = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=265)
     ],
     tests_inference=[
-        SubTest(10, [256, 256, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=60)
+        SubTest(10, [256, 256, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=60)
     ],
     tests_micro=[
-        SubTest(1, [256, 256, 3], [1001], 22, min_passes=5, max_duration=30, ref_time=25)
+        SubTest(1, [256, 256, 3], [1001], 22,
+                min_passes=5, max_duration=30, ref_time=25)
     ]
 )
 VGG_16 = Test(test_id=7, test_type="classification", model="VGG-16", use_src=False,
-     model_src="vgg_16.meta",
-     tests_training=[SubTest(2, [224, 224, 3], [1000], 22, min_passes=5, max_duration=30,
-                             loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=190)],
-     tests_inference=[SubTest(20, [224, 224, 3], [1000], 22, min_passes=5, max_duration=30, ref_time=110)],
-     tests_micro=[SubTest(1, [224, 224, 3], [1000], 22, min_passes=5, max_duration=30, ref_time=56)]
-)
+              model_src="vgg_16.meta",
+              tests_training=[SubTest(2, [224, 224, 3], [1000], 22, min_passes=5, max_duration=30,
+                                      loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=190)],
+              tests_inference=[SubTest(
+                  20, [224, 224, 3], [1000], 22, min_passes=5, max_duration=30, ref_time=110)],
+              tests_micro=[SubTest(1, [224, 224, 3], [
+                                   1000], 22, min_passes=5, max_duration=30, ref_time=56)]
+              )
 SRCNN_9_5_5 = Test(
     test_id=8, test_type="enhancement", model="SRCNN 9-5-5", model_src="srcnn.meta", use_src=False,
     tests_training=[SubTest(10, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30,
-                             loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=285)],
+                            loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=285)],
     tests_inference=[
-        SubTest(10, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=100),
-        SubTest(1, [1536, 1536, 3], [1536, 1536, 3], 22, min_passes=5, max_duration=30, ref_time=85)
+        SubTest(10, [512, 512, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=100),
+        SubTest(1, [1536, 1536, 3], [1536, 1536, 3], 22,
+                min_passes=5, max_duration=30, ref_time=85)
     ],
     tests_micro=[
-        SubTest(1, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=10)
+        SubTest(1, [512, 512, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=10)
     ]
 )
 VGG_19_SUPER_RES = Test(
@@ -150,11 +168,14 @@ VGG_19_SUPER_RES = Test(
         SubTest(10, [224, 224, 3], [224, 224, 3], 22, min_passes=5, max_duration=30,
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=274)],
     tests_inference=[
-        SubTest(10, [256, 256, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=114),
-        SubTest(1, [1024, 1024, 3], [1024, 1024, 3], 22, min_passes=5, max_duration=30, ref_time=162)
+        SubTest(10, [256, 256, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=114),
+        SubTest(1, [1024, 1024, 3], [1024, 1024, 3], 22,
+                min_passes=5, max_duration=30, ref_time=162)
     ],
     tests_micro=[
-        SubTest(1, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=43)
+        SubTest(1, [512, 512, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=43)
     ]
 )
 RESNET_SRGAN = Test(
@@ -164,11 +185,14 @@ RESNET_SRGAN = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=170)
     ],
     tests_inference=[
-        SubTest(10, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=110),
-        SubTest(1, [1536, 1536, 3], [1536, 1536, 3], 22, min_passes=5, max_duration=30, ref_time=100)
+        SubTest(10, [512, 512, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=110),
+        SubTest(1, [1536, 1536, 3], [1536, 1536, 3], 22,
+                min_passes=5, max_duration=30, ref_time=100)
     ],
     tests_micro=[
-         SubTest(1, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=17)
+        SubTest(1, [512, 512, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=17)
     ]
 )
 RESNET_DPED = Test(
@@ -178,11 +202,14 @@ RESNET_DPED = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=200)
     ],
     tests_inference=[
-        SubTest(10, [256, 256, 3], [256, 256, 3], 22, min_passes=5, max_duration=30, ref_time=135),
-        SubTest(1, [1024, 1024, 3], [1024, 1024, 3], 22, min_passes=5, max_duration=30, ref_time=215)
+        SubTest(10, [256, 256, 3], [256, 256, 3], 22,
+                min_passes=5, max_duration=30, ref_time=135),
+        SubTest(1, [1024, 1024, 3], [1024, 1024, 3], 22,
+                min_passes=5, max_duration=30, ref_time=215)
     ],
     tests_micro=[
-        SubTest(1, [256, 256, 3], [256, 256, 3], 22, min_passes=5, max_duration=30, ref_time=15.5)
+        SubTest(1, [256, 256, 3], [256, 256, 3], 22,
+                min_passes=5, max_duration=30, ref_time=15.5)
     ]
 )
 U_NET = Test(
@@ -192,11 +219,14 @@ U_NET = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=240)
     ],
     tests_inference=[
-        SubTest(4, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=220),
-        SubTest(1, [1024, 1024, 3], [1024, 1024, 3], 22, min_passes=5, max_duration=30, ref_time=215)
+        SubTest(4, [512, 512, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=220),
+        SubTest(1, [1024, 1024, 3], [1024, 1024, 3], 22,
+                min_passes=5, max_duration=30, ref_time=215)
     ],
     tests_micro=[
-        SubTest(1, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=57)
+        SubTest(1, [512, 512, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=57)
     ]
 )
 NVIDIA_SPADE = Test(
@@ -206,10 +236,12 @@ NVIDIA_SPADE = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=200)
     ],
     tests_inference=[
-        SubTest(5, [128, 128, 3], [128, 128, 3], 22, min_passes=5, max_duration=30, ref_time=110)
+        SubTest(5, [128, 128, 3], [128, 128, 3], 22,
+                min_passes=5, max_duration=30, ref_time=110)
     ],
     tests_micro=[
-         SubTest(1, [128, 128, 3], [128, 128, 3], 22, min_passes=5, max_duration=30, ref_time=46)
+        SubTest(1, [128, 128, 3], [128, 128, 3], 22,
+                min_passes=5, max_duration=30, ref_time=46)
     ]
 )
 ICNET = Test(
@@ -218,21 +250,25 @@ ICNET = Test(
         SubTest(10, [1024, 1536, 3], [1024, 1536, 3], 22, min_passes=5, max_duration=30,
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=815)],
     tests_inference=[
-        SubTest(5, [1024, 1536, 3], [1024, 1536, 3], 22, min_passes=5, max_duration=30, ref_time=270)
+        SubTest(5, [1024, 1536, 3], [1024, 1536, 3], 22,
+                min_passes=5, max_duration=30, ref_time=270)
     ],
     tests_micro=[
-         SubTest(1, [1024, 1536, 3], [1024, 1536, 3], 22, min_passes=5, max_duration=30, ref_time=33.5)
+        SubTest(1, [1024, 1536, 3], [1024, 1536, 3], 22,
+                min_passes=5, max_duration=30, ref_time=33.5)
     ]
 )
 PSPNET = Test(
     test_id=15, test_type="segmentation", model="PSPNet", model_src="pspnet.meta", use_src=False,
     tests_training=[SubTest(1, [512, 512, 3], [64, 64, 3], 22, min_passes=5, max_duration=30,
-                             loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=214)],
+                            loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=214)],
     tests_inference=[
-        SubTest(5, [720, 720, 3], [90, 90, 3], 22, min_passes=5, max_duration=30, ref_time=472)
+        SubTest(5, [720, 720, 3], [90, 90, 3], 22,
+                min_passes=5, max_duration=30, ref_time=472)
     ],
     tests_micro=[
-        SubTest(1, [720, 720, 3], [90, 90, 3], 22, min_passes=5, max_duration=30, ref_time=103)
+        SubTest(1, [720, 720, 3], [90, 90, 3], 22,
+                min_passes=5, max_duration=30, ref_time=103)
     ]
 )
 DEEPLAB = Test(
@@ -242,10 +278,12 @@ DEEPLAB = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=191)
     ],
     tests_inference=[
-        SubTest(2, [512, 512, 3], [64, 64, 3], 22, min_passes=5, max_duration=30, ref_time=125)
+        SubTest(2, [512, 512, 3], [64, 64, 3], 22,
+                min_passes=5, max_duration=30, ref_time=125)
     ],
     tests_micro=[
-        SubTest(1, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=67)
+        SubTest(1, [512, 512, 3], [512, 512, 3], 22,
+                min_passes=5, max_duration=30, ref_time=67)
     ]
 )
 PIXEL_RNN = Test(
@@ -255,7 +293,8 @@ PIXEL_RNN = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=1756)
     ],
     tests_inference=[
-        SubTest(50, [64, 64, 3], [64, 64, 3], 22, min_passes=5, max_duration=30, ref_time=665)
+        SubTest(50, [64, 64, 3], [64, 64, 3], 22,
+                min_passes=5, max_duration=30, ref_time=665)
     ],
     tests_micro=[]
 )
@@ -267,7 +306,8 @@ LSTM_SENTIMENT = Test(
                 loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=728)
     ],
     tests_inference=[
-        SubTest(100, [1024, 300], [2], 22, min_passes=5, max_duration=30, ref_time=547)
+        SubTest(100, [1024, 300], [2], 22, min_passes=5,
+                max_duration=30, ref_time=547)
     ],
     tests_micro=[]
 )
@@ -276,7 +316,8 @@ GNMT_TRANSLATION = Test(
     test_id=19, test_type="nlp-text", model="GNMT-Translation", model_src="gnmt.meta", use_src=False,
     tests_training=[],
     tests_inference=[
-        SubTest(1, [1, 20], [None], 22, min_passes=5, max_duration=30, ref_time=193)
+        SubTest(1, [1, 20], [None], 22, min_passes=5,
+                max_duration=30, ref_time=193)
     ],
     tests_micro=[]
 )

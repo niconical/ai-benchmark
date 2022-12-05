@@ -45,27 +45,33 @@ def update_info(mode, testInfo):
 
         if mode == "launch":
             if testInfo.is_cpu_inference:
-                patch(url=BENCHMARK_VERSION + '/launch/cpu/' + clean_symbols(data['cpu']) + "/" + timestamp, data=data, connection=None)
+                patch(url=BENCHMARK_VERSION + '/launch/cpu/' +
+                      clean_symbols(data['cpu']) + "/" + timestamp, data=data, connection=None)
             else:
-                patch(url=BENCHMARK_VERSION + '/launch/gpu/' + clean_symbols(data["gpu-0"]) + "/" + timestamp, data=data, connection=None)
+                patch(url=BENCHMARK_VERSION + '/launch/gpu/' + clean_symbols(
+                    data["gpu-0"]) + "/" + timestamp, data=data, connection=None)
 
         if mode == "scores":
 
             if testInfo._type != "training":
                 data['inference_score'] = testInfo.results.inference_score
-                data['inference_results'] = arrayToString(testInfo.results.results_inference)
+                data['inference_results'] = arrayToString(
+                    testInfo.results.results_inference)
 
             if testInfo._type == "full" or testInfo._type == "training":
                 data['training_score'] = testInfo.results.training_score
-                data['training_results'] = arrayToString(testInfo.results.results_training)
+                data['training_results'] = arrayToString(
+                    testInfo.results.results_training)
 
             if testInfo._type == "full":
                 data['ai_score'] = testInfo.results.ai_score
 
             if testInfo.is_cpu_inference:
-                patch(url=BENCHMARK_VERSION + '/' + testInfo._type + '/cpu/' + clean_symbols(data['cpu']) + "/" + timestamp, data=data, connection=None)
+                patch(url=BENCHMARK_VERSION + '/' + testInfo._type + '/cpu/' +
+                      clean_symbols(data['cpu']) + "/" + timestamp, data=data, connection=None)
             else:
-                patch(url=BENCHMARK_VERSION + '/' + testInfo._type + '/gpu/' + clean_symbols(data["gpu-0"]) + "/" + timestamp, data=data, connection=None)
+                patch(url=BENCHMARK_VERSION + '/' + testInfo._type + '/gpu/' +
+                      clean_symbols(data["gpu-0"]) + "/" + timestamp, data=data, connection=None)
 
     except:
         pass
@@ -130,9 +136,9 @@ def patch(url, data, connection):
     if not url.endswith('/'):
         url = url + '/'
 
-    dsn = base64.b64decode(b'aHR0cHM6Ly9haS1iZW5jaG1hcmstYWxwaGEuZmlyZWJhc2Vpby5jb20=').decode('ascii')
+    dsn = base64.b64decode(
+        b'aHR0cHM6Ly9haS1iZW5jaG1hcmstYWxwaGEuZmlyZWJhc2Vpby5jb20=').decode('ascii')
     endpoint = '%s%s%s' % (urlparse.urljoin(dsn, url), '', '.json')
 
     data = json.dumps(data)
     return make_patch_request(endpoint, data, connection=connection)
-

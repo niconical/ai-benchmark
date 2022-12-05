@@ -5,8 +5,10 @@ from ai_benchmark import config
 
 TEST_IDS = [str(t.id) for t in config.BENCHMARK_TESTS]
 
+
 class MainArgumentParser(argparse.ArgumentParser):
     """Parser with AI Benchmark arguments"""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.add_argument(

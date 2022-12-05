@@ -124,7 +124,8 @@ def load_data(test_type, dimensions):
         data = np.zeros(dimensions)
         for j in range(dimensions[0]):
 
-            image = Image.open(path.join(path.dirname(__file__), "data/classification/" + str(j) + ".jpg"))
+            image = Image.open(path.join(path.dirname(
+                __file__), "data/classification/" + str(j) + ".jpg"))
             image = resize_image(image, [dimensions[1], dimensions[2]])
             data[j] = image
 
@@ -132,7 +133,8 @@ def load_data(test_type, dimensions):
 
         data = np.zeros(dimensions)
         for j in range(dimensions[0]):
-            image = Image.open(path.join(path.dirname(__file__), "data/enhancement/" + str(j) + ".jpg"))
+            image = Image.open(path.join(path.dirname(
+                __file__), "data/enhancement/" + str(j) + ".jpg"))
             image = resize_image(image, [dimensions[1], dimensions[2]])
             data[j] = image
 
@@ -140,12 +142,14 @@ def load_data(test_type, dimensions):
 
         data = np.zeros(dimensions)
         for j in range(dimensions[0]):
-            image = Image.open(path.join(path.dirname(__file__), "data/segmentation/" + str(j) + ".jpg"))
+            image = Image.open(path.join(path.dirname(
+                __file__), "data/segmentation/" + str(j) + ".jpg"))
             image = resize_image(image, [dimensions[1], dimensions[2]])
             data[j] = image
 
     if test_type == "nlp":
-        data = np.random.uniform(-4, 4, (dimensions[0], dimensions[1], dimensions[2]))
+        data = np.random.uniform(-4, 4,
+                                 (dimensions[0], dimensions[1], dimensions[2]))
 
     if test_type == "nlp-text":
         data = "This is a story of how a Baggins had an adventure, " \
@@ -167,7 +171,8 @@ def load_targets(test_type, dimensions):
 
         data = np.zeros(dimensions)
         for j in range(dimensions[0]):
-            image = Image.open(path.join(path.dirname(__file__), "data/enhancement/" + str(j) + ".jpg"))
+            image = Image.open(path.join(path.dirname(
+                __file__), "data/enhancement/" + str(j) + ".jpg"))
             image = resize_image(image, [dimensions[1], dimensions[2]])
             data[j] = image
 
@@ -175,7 +180,8 @@ def load_targets(test_type, dimensions):
 
         data = np.zeros(dimensions)
         for j in range(dimensions[0]):
-            image = Image.open(path.join(path.dirname(__file__), "data/enhancement/" + str(j) + ".jpg"))
+            image = Image.open(path.join(path.dirname(
+                __file__), "data/enhancement/" + str(j) + ".jpg"))
             image = resize_image(image, [dimensions[1], dimensions[2]])
             data[j] = image
 
@@ -183,7 +189,8 @@ def load_targets(test_type, dimensions):
 
         data = np.zeros(dimensions)
         for j in range(dimensions[0]):
-            image = Image.open(path.join(path.dirname(__file__), "data/segmentation/" + str(j) + "_segmented.jpg"))
+            image = Image.open(path.join(path.dirname(
+                __file__), "data/segmentation/" + str(j) + "_segmented.jpg"))
             image = resize_image(image, [dimensions[1], dimensions[2]])
             data[j] = image
 
@@ -220,24 +227,28 @@ def get_model_src(test, testInfo, session):
         # Bypassing TensorFlow 2.0+ RNN Bugs
 
         if test.model == "LSTM-Sentiment":
-            input_ = tf.compat.v1.placeholder(tf.float32, [None, 1024, 300], name="input")
+            input_ = tf.compat.v1.placeholder(
+                tf.float32, [None, 1024, 300], name="input")
             output_ = LSTM_Sentiment(input_)
 
         if test.model == "Pixel-RNN":
-            input_ = tf.compat.v1.placeholder(tf.float32, [None, 64, 64, 3], name="input")
+            input_ = tf.compat.v1.placeholder(
+                tf.float32, [None, 64, 64, 3], name="input")
             output_ = PixelRNN(input_)
 
-        target_ = tf.compat.v1.placeholder(tf.float32, test.training[0].get_output_dims())
+        target_ = tf.compat.v1.placeholder(
+            tf.float32, test.training[0].get_output_dims())
 
         train_step_ = construct_optimizer(session, output_, target_,  test.training[0].loss_function,
-                                        test.training[0].optimizer,  test.training[0].learning_rate, testInfo.tf_ver_2)
+                                          test.training[0].optimizer,  test.training[0].learning_rate, testInfo.tf_ver_2)
 
         train_vars = [target_, train_step_]
 
     else:
 
         if testInfo.tf_ver_2:
-            tf.compat.v1.train.import_meta_graph(test.model_src, clear_devices=True)
+            tf.compat.v1.train.import_meta_graph(
+                test.model_src, clear_devices=True)
             g = tf.compat.v1.get_default_graph()
         else:
             tf.train.import_meta_graph(test.model_src, clear_devices=True)
@@ -393,10 +404,12 @@ def print_scores(testInfo, public_results):
 
     if testInfo._type == "full":
 
-        inference_score = geometrical_mean(testInfo.results.results_inference_norm)
+        inference_score = geometrical_mean(
+            testInfo.results.results_inference_norm)
         if np.isnan(inference_score):
             inference_score = 0
-        training_score = geometrical_mean(testInfo.results.results_training_norm)
+        training_score = geometrical_mean(
+            testInfo.results.results_training_norm)
         if np.isnan(training_score):
             training_score = 0
 
@@ -406,51 +419,64 @@ def print_scores(testInfo, public_results):
         public_results.inference_score = testInfo.results.inference_score
         public_results.training_score = testInfo.results.training_score
 
-        testInfo.results.ai_score = testInfo.results.inference_score + testInfo.results.training_score
+        testInfo.results.ai_score = testInfo.results.inference_score + \
+            testInfo.results.training_score
         public_results.ai_score = testInfo.results.ai_score
 
         update_info("scores", testInfo)
 
-        logger.info("Device Inference Score: %s", testInfo.results.inference_score)
-        logger.info("Device Training Score: %s", testInfo.results.training_score)
+        logger.info("Device Inference Score: %s",
+                    testInfo.results.inference_score)
+        logger.info("Device Training Score: %s",
+                    testInfo.results.training_score)
         logger.info("Device AI Score: %s", testInfo.results.ai_score)
-        logger.info("For more information and results, please visit http://ai-benchmark.com/alpha\n")
+        logger.info(
+            "For more information and results, please visit http://ai-benchmark.com/alpha\n")
 
     if testInfo._type == "inference":
 
-        inference_score = geometrical_mean(testInfo.results.results_inference_norm)
+        inference_score = geometrical_mean(
+            testInfo.results.results_inference_norm)
         testInfo.results.inference_score = int(inference_score * c_inference)
 
         public_results.inference_score = testInfo.results.inference_score
 
         update_info("scores", testInfo)
 
-        logger.info("Device Inference Score: %s", testInfo.results.inference_score)
-        logger.info("For more information and results, please visit http://ai-benchmark.com/alpha\n")
+        logger.info("Device Inference Score: %s",
+                    testInfo.results.inference_score)
+        logger.info(
+            "For more information and results, please visit http://ai-benchmark.com/alpha\n")
 
     if testInfo._type == "training":
 
-        training_score = geometrical_mean(testInfo.results.results_training_norm)
+        training_score = geometrical_mean(
+            testInfo.results.results_training_norm)
         testInfo.results.training_score = int(training_score * c_inference)
 
         public_results.training_score = testInfo.results.training_score
 
         update_info("scores", testInfo)
 
-        logger.info("Device Training Score: %s", testInfo.results.training_score)
-        logger.info("For more information and results, please visit http://ai-benchmark.com/alpha\n")
+        logger.info("Device Training Score: %s",
+                    testInfo.results.training_score)
+        logger.info(
+            "For more information and results, please visit http://ai-benchmark.com/alpha\n")
 
     if testInfo._type == "micro":
 
-        inference_score = geometrical_mean(testInfo.results.results_inference_norm)
+        inference_score = geometrical_mean(
+            testInfo.results.results_inference_norm)
         testInfo.results.inference_score = int(inference_score * c_inference)
 
         public_results.inference_score = testInfo.results.inference_score
 
         update_info("scores", testInfo)
 
-        logger.info("Device Inference Score: %s", testInfo.results.inference_score)
-        logger.info("For more information and results, please visit http://ai-benchmark.com/alpha\n")
+        logger.info("Device Inference Score: %s",
+                    testInfo.results.inference_score)
+        logger.info(
+            "For more information and results, please visit http://ai-benchmark.com/alpha\n")
 
     return public_results
 
@@ -464,20 +490,21 @@ def geometrical_mean(results):
 
 
 def run_tests(
-        training,
-        inference,
-        micro,
-        verbose,
-        use_cpu,
-        precision,
-        _type,
-        start_dir,
-        test_ids=None,
-        cpu_cores=None,
-        inter_threads=None,
-        intra_threads=None,
-    ):
-    testInfo = TestInfo(_type, precision, use_cpu, verbose, cpu_cores, inter_threads, intra_threads)
+    training,
+    inference,
+    micro,
+    verbose,
+    use_cpu,
+    precision,
+    _type,
+    start_dir,
+    test_ids=None,
+    cpu_cores=None,
+    inter_threads=None,
+    intra_threads=None,
+):
+    testInfo = TestInfo(_type, precision, use_cpu, verbose,
+                        cpu_cores, inter_threads, intra_threads)
     testInfo.full_suite = (
         test_ids is None or
         len(test_ids) == len(TestConstructor.BENCHMARK_TESTS)
@@ -510,11 +537,13 @@ def run_tests(
     for test in benchmark_tests:
 
         if not (micro and len(test.micro) == 0):
-            logger.info("\n%s/%s. %s\n", test.id, len(benchmark_tests), test.model)
+            logger.info("\n%s/%s. %s\n", test.id,
+                        len(benchmark_tests), test.model)
         sub_id = 1
 
         tf.compat.v1.reset_default_graph() if testInfo.tf_ver_2 else tf.reset_default_graph()
-        session = tf.compat.v1.Session(config=config) if testInfo.tf_ver_2 else tf.Session(config=config)
+        session = tf.compat.v1.Session(
+            config=config) if testInfo.tf_ver_2 else tf.Session(config=config)
 
         with tf.Graph().as_default(), session as sess:
 
@@ -542,24 +571,29 @@ def run_tests(
                                 or (i < subTest.min_passes and get_time_seconds() - time_test_started < MAX_TEST_DURATION) \
                                 or precision == "high":
 
-                            data = load_data(test.type, subTest.get_input_dims())
+                            data = load_data(
+                                test.type, subTest.get_input_dims())
                             time_iter_started = get_time_ms()
                             sess.run(output_, feed_dict={input_: data})
                             inference_time = get_time_ms() - time_iter_started
                             inference_times.append(inference_time)
 
-                            logger.debug("Inference Time: %s ms", inference_time)
+                            logger.debug("Inference Time: %s ms",
+                                         inference_time)
 
                     time_mean, time_std = compute_stats(inference_times)
 
                     public_id = "%d.%d" % (test.id, sub_id)
-                    public_results.test_results[public_id] = Result(time_mean, time_std)
+                    public_results.test_results[public_id] = Result(
+                        time_mean, time_std)
 
                     benchmark_results.results_inference.append(time_mean)
-                    benchmark_results.results_inference_norm.append(float(subTest.ref_time) / time_mean)
+                    benchmark_results.results_inference_norm.append(
+                        float(subTest.ref_time) / time_mean)
 
                     prefix = "%d.%d - inference" % (test.id, sub_id)
-                    print_test_results(prefix, subTest.batch_size, subTest.get_input_dims(), time_mean, time_std)
+                    print_test_results(
+                        prefix, subTest.batch_size, subTest.get_input_dims(), time_mean, time_std)
                     sub_id += 1
 
             if training:
@@ -569,12 +603,14 @@ def run_tests(
                     if train_vars_ is None:
 
                         if testInfo.tf_ver_2:
-                            target_ = tf.compat.v1.placeholder(tf.float32, subTest.get_output_dims())
+                            target_ = tf.compat.v1.placeholder(
+                                tf.float32, subTest.get_output_dims())
                         else:
-                            target_ = tf.placeholder(tf.float32, subTest.get_output_dims())
+                            target_ = tf.placeholder(
+                                tf.float32, subTest.get_output_dims())
 
                         train_step = construct_optimizer(sess, output_, target_, subTest.loss_function,
-                                                        subTest.optimizer, subTest.learning_rate, testInfo.tf_ver_2)
+                                                         subTest.optimizer, subTest.learning_rate, testInfo.tf_ver_2)
 
                     else:
 
@@ -590,11 +626,14 @@ def run_tests(
                                 or (i < subTest.min_passes and get_time_seconds() - time_test_started < MAX_TEST_DURATION) \
                                 or precision == "high":
 
-                            data = load_data(test.type, subTest.get_input_dims())
-                            target = load_targets(test.type, subTest.get_output_dims())
+                            data = load_data(
+                                test.type, subTest.get_input_dims())
+                            target = load_targets(
+                                test.type, subTest.get_output_dims())
 
                             time_iter_started = get_time_ms()
-                            sess.run(train_step, feed_dict={input_: data, target_: target})
+                            sess.run(train_step, feed_dict={
+                                     input_: data, target_: target})
                             training_time = get_time_ms() - time_iter_started
                             training_times.append(training_time)
 
@@ -603,14 +642,24 @@ def run_tests(
                     time_mean, time_std = compute_stats(training_times)
 
                     public_id = "%d.%d" % (test.id, sub_id)
-                    public_results.test_results[public_id] = Result(time_mean, time_std)
+                    public_results.test_results[public_id] = Result(
+                        time_mean, time_std)
 
                     benchmark_results.results_training.append(time_mean)
-                    benchmark_results.results_training_norm.append(float(subTest.ref_time) / time_mean)
+                    benchmark_results.results_training_norm.append(
+                        float(subTest.ref_time) / time_mean)
 
                     prefix = "%d.%d - training " % (test.id, sub_id)
-                    print_test_results(prefix, subTest.batch_size, subTest.get_input_dims(), time_mean, time_std)
+                    print_test_results(
+                        prefix, subTest.batch_size, subTest.get_input_dims(), time_mean, time_std)
                     sub_id += 1
+
+                    # log flops
+                    parameters = tf.compat.v1.profiler.profile(
+                        sess.graph, run_meta=tf.compat.v1.RunMetadata(), cmd='op',
+                        options=tf.compat.v1.profiler.ProfileOptionBuilder.float_operation())
+                    logger.debug('total flops: {}'.format(
+                        parameters.total_float_ops))
 
         sess.close()
 

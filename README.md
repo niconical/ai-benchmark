@@ -95,4 +95,7 @@ benchmark.run(precision="normal"):
 GPU with at least 2GB of RAM is required for running inference tests / 4GB of RAM for training tests.
 
 ### TODO
-[ ] PyTorch support.
+- [ ] PyTorch support.
+- [ ] GPU Metrics support.
+- [ ] Test Flops function and merge to results.
+- [ ] Add ShuffleNet v1/v2.
